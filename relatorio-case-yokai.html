@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Case Yokai · Relatório de diagnóstico · SKEM.AI</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Orbitron:wght@500;700;800;900&display=swap">
+<style>
+  :root{
+    --violet:#6015F5; --deep:#26068D; --red:#EF001B; --ink:#17171F; --ink-2:#1F1E2D;
+    --lilac:#A98BFF; --mist:#BDB8DA; --line:rgba(189,184,218,.22);
+    --display:'Orbitron',system-ui,sans-serif; --body:'Montserrat',system-ui,sans-serif;
+  }
+  @page{size:A4;margin:16mm 16mm 18mm}
+  @page :first{margin:0}
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{background:var(--ink)}
+  body{margin:0;color:#fff;font-family:var(--body);font-size:9.5pt;line-height:1.55}
+  h1,h2,h3,h4{font-family:var(--display);margin:0;line-height:1.15;letter-spacing:.01em}
+  p{margin:0 0 .7em}
+  b,strong{font-weight:700;color:#fff}
+  .grad{background:linear-gradient(95deg,#C9B6FF 0%,#8E5CFF 60%,#6B2BFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .dot{display:inline-block;width:.22em;height:.22em;border-radius:50%;background:var(--red);margin-left:.06em;box-shadow:0 0 14px rgba(239,0,27,.8)}
+  .eyebrow{display:flex;align-items:center;gap:.6em;font-family:var(--display);font-weight:500;font-size:7.5pt;letter-spacing:.3em;text-transform:uppercase;color:var(--mist);margin:0 0 3mm}
+  .eyebrow::before{content:"";width:.6em;height:.6em;border-radius:50%;background:var(--red);box-shadow:0 0 10px rgba(239,0,27,.7)}
+  .muted{color:var(--mist)}
+
+  /* capa */
+  .cover{height:297mm;width:210mm;position:relative;overflow:hidden;padding:30mm 22mm;display:flex;flex-direction:column;page-break-after:always;
+    background:radial-gradient(150mm 120mm at 5% -5%,rgba(96,21,245,.6),transparent 60%),radial-gradient(150mm 120mm at 105% 105%,rgba(38,6,141,.95),transparent 60%),var(--ink)}
+  .logo-card{background:#fff;border-radius:18px;padding:8mm 9mm;width:100mm;box-shadow:0 0 0 1px rgba(255,255,255,.4),0 20px 60px -15px rgba(96,21,245,.85),0 0 80px rgba(96,21,245,.35)}
+  .logo-card img{display:block;width:100%}
+  .cover h1{font-size:40pt;font-weight:900;margin-top:22mm}
+  .cover .sub{font-size:13pt;color:var(--mist);margin-top:6mm;max-width:150mm;line-height:1.5}
+  .meta{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+  .meta div{border:1px solid var(--line);border-radius:12px;padding:4mm 5mm;background:rgba(255,255,255,.04)}
+  .meta small{display:block;font-family:var(--display);font-size:6.5pt;letter-spacing:.24em;color:var(--lilac);margin-bottom:1mm}
+  .meta span{font-size:9.5pt}
+
+  /* corpo */
+  main{padding:0}
+  section{margin:0 0 9mm}
+  section.br{page-break-before:always}
+  h2{font-size:17pt;font-weight:800;margin:0 0 4mm}
+  h2,h3,h4{break-after:avoid}
+  h2 .n{color:var(--lilac);font-weight:700;margin-right:3mm}
+  h3{font-size:10.5pt;font-weight:700;margin:5mm 0 2mm;color:#fff}
+  h4{font-size:7.5pt;letter-spacing:.2em;color:var(--lilac);font-weight:700;margin:0 0 1.5mm;text-transform:uppercase}
+  ul{margin:0 0 .8em;padding-left:0;list-style:none}
+  ul li{position:relative;padding-left:5mm;margin:0 0 1.6mm;color:#E8E5F5}
+  ul li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:1px;background:var(--lilac);transform:rotate(45deg)}
+  ol{margin:0 0 .8em;padding-left:6mm;color:#E8E5F5}
+  ol li{margin-bottom:1.6mm}
+  .card{border:1px solid var(--line);border-radius:14px;padding:5mm 6mm;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));margin:0 0 4mm;break-inside:avoid}
+  .card.hi{background:linear-gradient(130deg,rgba(96,21,245,.55),rgba(38,6,141,.6));border-color:rgba(255,255,255,.3)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4mm}
+  .grid2 .card,.grid3 .card{margin:0}
+  .quote{border-left:3px solid var(--violet);padding:2mm 0 2mm 5mm;margin:3mm 0 4mm;font-style:italic;color:#F1EEFF;break-inside:avoid}
+  .quote cite{display:block;font-style:normal;font-family:var(--display);font-size:6.5pt;letter-spacing:.22em;color:var(--lilac);margin-top:1.5mm}
+  .rule{display:flex;gap:3mm;align-items:flex-start;padding:3.5mm 5mm;border-radius:12px;border:1px solid rgba(239,0,27,.55);background:rgba(239,0,27,.08);font-weight:600;margin:3mm 0 4mm;break-inside:avoid}
+  .rule i{flex:none;width:8px;height:8px;margin-top:.45em;border-radius:50%;background:var(--red);box-shadow:0 0 10px rgba(239,0,27,.9)}
+  .pill{display:inline-block;padding:.25em .8em;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);font-size:8pt;color:var(--mist);margin:0 1.5mm 1.5mm 0}
+  .pill b{color:#fff}
+  .sev{display:inline-block;font-family:var(--display);font-size:6.5pt;letter-spacing:.18em;padding:.35em .9em;border-radius:999px;margin-left:2mm;vertical-align:middle}
+  .sev.a{background:linear-gradient(120deg,var(--violet),var(--deep));border:1px solid rgba(255,255,255,.3)}
+  .sev.m{border:1px solid var(--lilac);color:var(--lilac)}
+  .sev.b{border:1px dashed var(--mist);color:var(--mist)}
+  .prob{border:1px solid var(--line);border-radius:16px;padding:6mm 7mm;margin:0 0 6mm;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015))}
+  .prob > h3:first-child{margin-top:0;font-size:13pt}
+  .prob .lbl{font-family:var(--display);font-size:6.5pt;letter-spacing:.24em;color:var(--lilac);margin-bottom:1.5mm}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:8.8pt;margin:2mm 0 5mm;border:1px solid var(--line);border-radius:12px;overflow:hidden;break-inside:avoid}
+  th,td{padding:2.4mm 3mm;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:0}
+  th{font-family:var(--display);font-size:6.6pt;letter-spacing:.16em;color:var(--mist);font-weight:700;background:rgba(255,255,255,.06)}
+  td{color:#E8E5F5}
+  td:first-child{color:#fff;font-weight:600}
+  .toc{columns:2;column-gap:10mm}
+  .toc div{break-inside:avoid;display:flex;gap:3mm;padding:1.8mm 0;border-bottom:1px dashed var(--line)}
+  .toc div span{font-family:var(--display);color:var(--lilac);font-size:8pt;width:8mm}
+  .note{font-size:8pt;color:var(--mist)}
+  .flow{display:flex;align-items:stretch;gap:2mm;margin:3mm 0 5mm}
+  .flow div{flex:1;border:1px solid var(--line);border-radius:10px;padding:3mm;background:rgba(255,255,255,.05);font-size:8pt}
+  .flow div b{display:block;font-size:8.5pt;margin-bottom:1mm}
+  .flow div small{font-family:var(--display);font-size:6pt;letter-spacing:.2em;color:var(--lilac)}
+  .flow div.risk{border-color:rgba(239,0,27,.5)}
+  .flow div.last{background:linear-gradient(130deg,var(--violet),var(--deep));border-color:rgba(255,255,255,.3)}
+  .end{margin-top:10mm;text-align:center;color:var(--mist);font-size:8pt}
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <div class="logo-card"><img src="data:image/webp;base64,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" alt="SKEM.AI"></div>
+  <p class="eyebrow" style="margin-top:20mm">Clube de IA · Case real</p>
+  <h1>Case <span class="grad">Yokai</span><span class="dot"></span></h1>
+  <p class="sub">Relatório de diagnóstico: as dores, os problemas e todos os detalhes levantados na conversa com a Karu, dona do Yokai, organizados para os grupos do clube.</p>
+  <div class="meta">
+    <div><small>FONTE</small><span>Gravação da conversa com a Karu, 13/11/2026, cerca de 1h06min</span></div>
+    <div><small>MATERIAL DE APOIO</small><span>Planilhas da cozinha compartilhadas pela Karu</span></div>
+    <div><small>PARA QUEM</small><span>Membros da SKEM.AI que vão trabalhar no case</span></div>
+    <div><small>USO</small><span>Interno do clube. Contém dados reais do negócio.</span></div>
+  </div>
+</div>
+
+<main>
+
+<section>
+  <p class="eyebrow">Sumário</p>
+  <h2>O que tem neste <span class="grad">relatório</span></h2>
+  <div class="toc">
+    <div><span>01</span>Resumo executivo</div>
+    <div><span>02</span>O negócio e as pessoas</div>
+    <div><span>03</span>Como a cozinha funciona hoje</div>
+    <div><span>04</span>Ferramentas que já usam ou testaram</div>
+    <div><span>05</span>Problema 1 · Supervisão à distância</div>
+    <div><span>06</span>Problema 2 · Contagem e estoque</div>
+    <div><span>07</span>Problema 3 · Previsão de pré-preparo</div>
+    <div><span>08</span>Problema 4 · Comunicação e fotos</div>
+    <div><span>09</span>Problema 5 · Pedidos de compra</div>
+    <div><span>10</span>Problema 6 · Fornecedores e prazos</div>
+    <div><span>11</span>Problema 7 · Recebimento de mercadoria</div>
+    <div><span>12</span>Problema 8 · Checklists de rotina</div>
+    <div><span>13</span>Dores secundárias</div>
+    <div><span>14</span>O que a solução não pode ser</div>
+    <div><span>15</span>Prioridades da Karu</div>
+    <div><span>16</span>Ideias que surgiram na conversa</div>
+    <div><span>17</span>Dados disponíveis</div>
+    <div><span>18</span>Perguntas em aberto</div>
+    <div><span>19</span>O que isso significa para os grupos</div>
+  </div>
+  <div class="rule"><i></i><span>A transcrição foi feita de forma automática. Alguns nomes próprios (de pessoas, fornecedores e aplicativos) podem estar com a grafia errada e estão marcados com “(grafia a confirmar)” quando há dúvida.</span></div>
+</section>
+
+<!-- 01 -->
+<section>
+  <h2><span class="n">01</span>Resumo <span class="grad">executivo</span></h2>
+  <p>A Karu é dona do Yokai, um restaurante de cozinha asiática de bar em Belo Horizonte. Ela vai <b>abrir um novo negócio</b> e, com isso, vai sair do dia a dia da cozinha. Ao mesmo tempo, o <b>chefe de produção, há três anos na casa, está saindo</b> para abrir o próprio restaurante. A equipe que fica ainda está, em parte, em treinamento.</p>
+  <p>Hoje a cozinha funciona bem, mas funciona porque a Karu está lá. Contagem de estoque, checklists e pedidos vivem em <b>planilhas impressas e plastificadas coladas na geladeira</b>. Quando ela não está, a informação só chega até ela se alguém lembrar de mandar <b>foto pelo WhatsApp</b>, e essas fotos e pedidos se perdem num grupo que mistura todos os assuntos.</p>
+  <div class="card hi">
+    <h4 style="color:#E6DEFF">A dor principal, nas palavras dela</h4>
+    <p style="margin:0">“Basicamente o nosso maior percalço agora é isso: <b>contagem, estoque e processo pros meninos enquanto eu estiver fora</b>. Pra eu conseguir supervisionar isso sem ter que ficar lá batendo com eles.”</p>
+  </div>
+  <p>Além disso, a quantidade de pré-preparo é definida por um <b>mínimo fixo</b>, quando a demanda varia muito por dia da semana. A Karu quer usar o histórico para prever quanto preparar e quanto pedir em cada dia. Ela já testou aplicativos prontos, mas achou caros (R$ 500 a R$ 1.000 por mês), cheios de módulos que não usa e trabalhosos para a equipe.</p>
+  <div class="grid3">
+    <div class="card"><h4>O que ela quer</h4><p style="margin:0">Acompanhar a cozinha de longe, com a informação organizada, sem precisar cobrar foto.</p></div>
+    <div class="card"><h4>O que ela não quer</h4><p style="margin:0">Microgerenciar, vigiar a equipe ou adicionar passos que atrapalham quem está na correria.</p></div>
+    <div class="card"><h4>O que precisa caber</h4><p style="margin:0">Um orçamento pequeno. Ela prefere investir em pessoas e marketing.</p></div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section class="br">
+  <h2><span class="n">02</span>O negócio e <span class="grad">as pessoas</span></h2>
+  <h3>O restaurante</h3>
+  <ul>
+    <li><b>Yokai</b>, em Belo Horizonte. Cozinha asiática de bar (japonesa, chinesa, coreana e tailandesa), com drinks e mocktails com nomes de yokai e personagens.</li>
+    <li>Pratos citados nas planilhas: gyoza de porco, yaki onigiri, shorompo, karaage, ebi buta dim sum, tamago, jian dui, tso flower, tako potato, kimcheese dango, katsu kare sando, tori sando, fried nasu wonton, khanom tom, liang-zhu, lo bak go, pajeon, entre outros.</li>
+    <li>Drinks citados: Shikigami, Onibi, Ryuk, Akuma, Fitzgerald, Teru Teru, Mutuca, Secret Garden, Tanuki, Akashita, Negroni e outros. Mocktails: Totoro, Tonikku, Praetorian, Shirime, Pompoko.</li>
+    <li><b>Modelo de cozinha:</b> quase tudo é preparado antes (dumplings, purês, croquetes, molhos), porcionado e congelado, para sair rápido no serviço. O volume de hortifruti é pequeno. A Karu descreve como “pega, prepara, congela”: pouca perda e margem de desperdício desprezível.</li>
+    <li>Não fazem delivery hoje, mas o sistema de vendas que usam suportaria.</li>
+    <li><b>O cardápio está mudando agora.</b> O Tori Sando, que está desde a inauguração, vai sair. Entra um sanduíche de camarão com porco.</li>
+  </ul>
+  <h3>As pessoas</h3>
+  <table>
+    <tr><th style="width:26%">Quem</th><th style="width:30%">Papel</th><th>O que foi dito</th></tr>
+    <tr><td>Karu</td><td>Dona, cuida da cozinha</td><td>Faz as análises de cardápio, confere todos os pedidos da cozinha e cobra as fotos. Vai abrir um novo negócio. Responde mensagens de madrugada, quando sai do restaurante.</td></tr>
+    <tr><td>Caio</td><td>Sócio, cuida das compras</td><td>Lida com os fornecedores e envia os pedidos depois que a Karu aprova. No início do restaurante, eram só os dois e mais dois funcionários.</td></tr>
+    <tr><td>Chefe de produção (Makoto, grafia a confirmar)</td><td>Produção, turno da manhã</td><td>Há três anos na casa. Fazia as contagens de segunda e quinta. Está saindo para abrir o próprio negócio. “Funciona muito bem com ele, e essa é a minha maior preocupação com uma próxima pessoa.”</td></tr>
+    <tr><td>Isa</td><td>Turno da noite</td><td>Ainda em treinamento. Manda o checklist e o pedido no fim da noite. Esqueceu de pedir pão numa semana.</td></tr>
+    <tr><td>Equipe</td><td>5 funcionários na cozinha</td><td>Dois de manhã (produção e recebimento) e duas à noite (finalização e fechamento).</td></tr>
+    <tr><td>Financeiro</td><td>Terceirizado</td><td>Uma pessoa externa cuida da planilha financeira, lançando as notas e o extrato por categoria.</td></tr>
+  </table>
+</section>
+
+<!-- 03 -->
+<section class="br">
+  <h2><span class="n">03</span>Como a cozinha <span class="grad">funciona hoje</span></h2>
+  <div class="flow">
+    <div><small>01</small><b>Produção</b>Manhã faz as produções grandes, porciona e congela.</div>
+    <div class="risk"><small>02</small><b>Contagem</b>Segunda e quinta, em planilha impressa na geladeira.</div>
+    <div class="risk"><small>03</small><b>Foto</b>Equipe manda foto no WhatsApp quando lembra ou é cobrada.</div>
+    <div class="risk"><small>04</small><b>Pedido</b>Karu confere, Caio envia ao fornecedor.</div>
+    <div class="last"><small>05</small><b>Recebimento</b>Manhã confere nota, quantidade e pedido.</div>
+  </div>
+  <h3>Rotina semanal</h3>
+  <ul>
+    <li><b>Segunda:</b> primeira contagem da semana.</li>
+    <li><b>Quinta:</b> segunda contagem, para programar a semana seguinte.</li>
+    <li><b>No meio da semana:</b> a planilha da geladeira é atualizada na hora sempre que alguém retira ou produz algo. Exemplo citado: numa terça alguém pegou uma bag de atum; no dia seguinte, outra; na quarta foi produzida mais e a planilha foi atualizada.</li>
+    <li><b>Toda noite:</b> checklist de fechamento, e a Karu pede foto dele.</li>
+    <li><b>Hortifruti:</b> controle diário, porque é muito perecível e usado em pouca quantidade.</li>
+    <li><b>Secos:</b> controle a cada 15 dias, porque são comprados em volume.</li>
+    <li><b>Produtos chineses:</b> uma vez por mês.</li>
+  </ul>
+  <h3>Por que o papel na geladeira</h3>
+  <p>A Karu explica que, na correria do restaurante, a pessoa abre a geladeira e precisa anotar na hora. “Não dá pra ficar anotando em papel, ou às vezes até não dá pra pegar o celular. A gente achou assim, essa forma prática.” O papel funciona. O problema é que a informação fica presa nele.</p>
+  <div class="quote">Esse é o nosso sistema. Não é arcaico… Funciona. Mas é arcaico.<cite>Karu</cite></div>
+</section>
+
+<!-- 04 -->
+<section class="br">
+  <h2><span class="n">04</span>Ferramentas que <span class="grad">já usam ou testaram</span></h2>
+  <table>
+    <tr><th style="width:22%">Ferramenta</th><th style="width:22%">Situação</th><th>Detalhes da conversa</th></tr>
+    <tr><td>Saipos</td><td>Em uso (ponto de venda)</td><td>Serve para ponto de venda e delivery. Os relatórios mostram quantas pessoas foram atendidas, ticket médio e quantos pratos venderam, e são a base das decisões de cardápio. Tem módulos de estoque e financeiro, mas a Karu acha chato de implementar. <b>Não importa notas fiscais</b>, e por isso ela comentou que pensam em trocar.</td></tr>
+    <tr><td>Excel</td><td>Em uso, “horrores”</td><td>Ela preenche célula por célula, sem macros. Tem planilhas de contagem, produção, pedidos, limpeza, fechamento, porcionamento e análise de vendas.</td></tr>
+    <tr><td>Papel plastificado</td><td>Em uso</td><td>Checklists e contagem impressos e plastificados na geladeira, para não precisar imprimir de novo.</td></tr>
+    <tr><td>WhatsApp</td><td>Em uso</td><td>Um grupo com todo mundo, onde chegam fotos, pedidos de compra, avisos de dedetização e conversas.</td></tr>
+    <tr><td>Câmeras</td><td>Em uso</td><td>Existem câmeras na cozinha. Ela poderia assistir 24 horas, mas não quer fazer isso.</td></tr>
+    <tr><td>ChatGPT</td><td>Em uso básico</td><td>Usa para pesquisa e para montar o cronograma de marketing (que dia de Reels, que dia de Stories). Acha difícil escrever prompts.</td></tr>
+    <tr><td>Monday</td><td>Usado em outro emprego</td><td>Tinha ingredientes e categorias, e a contagem chegava para ela. Mas, com Excel e papel misturados, ficava ruim para a equipe, e ela não sabe mexer bem.</td></tr>
+    <tr><td>ClickUp</td><td>Citado</td><td>Tem coisa demais.</td></tr>
+    <tr><td>Conclui (grafia a confirmar)</td><td>Avaliado, não contratado</td><td>App de estoque e checklists que pede foto como evidência de cada tarefa. Custa entre R$ 500 e R$ 1.000 por mês e é vendido em módulos. O de estoque interessaria, mas o de fotos não faz sentido para ela. A Karu tem vídeos de demonstração do vendedor e vai passar para o clube.</td></tr>
+    <tr><td>Fuso (grafia a confirmar)</td><td>Pesquisado</td><td>App que manda mensagem automática para vários fornecedores pedindo cotação. Um conhecido usou um mês e cancelou: os fornecedores de BH têm dificuldade de responder e de se cadastrar.</td></tr>
+    <tr><td>Take It (grafia a confirmar)</td><td>Pesquisado</td><td>Cadastra clientes pelo celular com QR code. Ela viu como opção para um clube de fidelidade.</td></tr>
+    <tr><td>Suflex (grafia a confirmar)</td><td>Citado</td><td>Sistema de etiquetas usado por outros restaurantes. Ela achou caro e não sabe se compensa.</td></tr>
+  </table>
+  <div class="quote">A planilha tá dando certo. Era bom ter um aplicativo, mas por esse valor eu prefiro investir em marketing, por exemplo, que vai me trazer retorno.<cite>Karu, sobre os apps de R$ 500 a R$ 1.000 por mês</cite></div>
+</section>
+
+<!-- 05 -->
+<section class="br">
+  <p class="eyebrow">As dores, uma por uma</p>
+  <div class="prob">
+    <p class="lbl">PROBLEMA 1</p>
+    <h3>Supervisão à distância <span class="sev a">CRÍTICO</span></h3>
+    <p>É a origem de todo o case. Com a abertura do novo negócio, a equipe vai ficar sozinha na cozinha, e a pessoa que segurava a produção está saindo.</p>
+    <div class="two">
+      <div>
+        <h4>O que acontece hoje</h4>
+        <ul>
+          <li>Ela só sabe como está a cozinha se estiver lá ou se alguém mandar foto.</li>
+          <li>Precisa lembrar a equipe o tempo todo de mandar as fotos.</li>
+          <li>Não tem como conferir se a contagem, a limpeza e o fechamento foram feitos.</li>
+          <li>Quando algo sai do normal, como a Isa mandando pedido à meia-noite de uma terça, ela só entende o que aconteceu no dia seguinte, perguntando.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>O que ela precisa</h4>
+        <ul>
+          <li>Deixar os processos “o mais descritivos possível” para a equipe executar sozinha.</li>
+          <li>Estar informada sem estar presente.</li>
+          <li>Ter onde cobrar se algo der errado e onde ajudar se alguém esquecer.</li>
+          <li>Facilitar a comunicação dos dois lados, não fiscalizar.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="quote">E não é que eu não confie neles, mas assim, eu sei que eu preciso deixar as coisas o mais descritivo possível pra eles poderem desenvolver as tarefas.<cite>Karu</cite></div>
+    <div class="quote">Não é que eu não confie, mas é aquele confiar, desconfiar, né? É o seu negócio.<cite>Karu</cite></div>
+  </div>
+
+  <div class="prob">
+    <p class="lbl">PROBLEMA 2</p>
+    <h3>Contagem e estoque no papel <span class="sev a">CRÍTICO</span></h3>
+    <p>A Karu chamou a contagem de “onde está o nosso gargalo hoje em dia”.</p>
+    <div class="two">
+      <div>
+        <h4>Como funciona</h4>
+        <ul>
+          <li>Contagem impressa colada em cada equipamento: um freezer, uma geladeira refrigerada, um freezer de estoque de eventos e de funcionários e um freezer só dos dumplings.</li>
+          <li>A planilha de estoque é impressa para o chefe de produção contar.</li>
+          <li>A Karu prefere a planilha organizada <b>por fornecedor</b>, porque facilita fazer o pedido de uma vez. O chefe prefere <b>por tipo</b>, porque segue a arrumação física do estoque, que não é separada por fornecedor.</li>
+          <li>Há uma aba de pedidos por fornecedor (exemplo: Benassi), com o pedido mínimo mensal e o estoque mínimo. Abaixo dele, o item entra no pedido.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Onde dói</h4>
+        <ul>
+          <li>Como está no papel, a contagem é trabalhosa e depois ninguém passa a limpo.</li>
+          <li><b>Sem histórico:</b> “Como fica no papel e eu não tenho tempo, eu não consigo parar pra olhar.”</li>
+          <li>Sem a contagem digitada, o <b>CMV</b> (custo da mercadoria vendida) fica incompleto. Ela lembrou que o CMV não serve só para a ficha técnica, mas para a contagem também.</li>
+          <li>Se ela não está, não tem como saber se a contagem bate.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="quote">É uma planilha, literalmente ali na hora, porque assim, na correria do restaurante a gente sobe na geladeira e tem que anotar… Mas o problema é que se eu não tô lá…<cite>Karu</cite></div>
+  </div>
+</section>
+
+<section class="br">
+  <div class="prob">
+    <p class="lbl">PROBLEMA 3</p>
+    <h3>Previsão de pré-preparo <span class="sev a">CRÍTICO</span></h3>
+    <p>A planilha de produção tem um <b>mínimo fixo</b> para cada pré-preparo, mas a demanda muda muito por dia da semana.</p>
+    <ul>
+      <li>Ela tentou colocar “todo dia tem que ter pelo menos cinco porções”. Mas num sábado podem ser necessárias <b>15 porções</b>, e numa terça <b>6 ou 7</b> bastam.</li>
+      <li>A ideia dela: uma coluna de mínimos para cada dia da semana. A equipe confere o checklist contra o mínimo daquele dia e, no dia seguinte, troca a coluna.</li>
+      <li>Precisa considerar <b>feriados</b> e outras datas óbvias.</li>
+      <li>Já existe uma aba “Quantidades mínimas” com médias de três períodos por prato e um “mínimo por bag”, mas ainda sem divisão por dia da semana.</li>
+    </ul>
+    <h4>A experiência que ela já tem</h4>
+    <p>Num emprego anterior, quando cuidava da praça de carnes, ela pedia ao escritório que imprimisse o relatório de vendas da <b>mesma sexta-feira da semana anterior</b> e da <b>sexta-feira de um ano atrás</b>. Com base nisso decidia quantas peças abrir. A carne era muito cara e vinha porcionada de quatro em quatro, então abrir uma a mais significava quatro porções a mais.</p>
+    <div class="quote">Então, essa questão de tentar talvez fazer por dia da semana, então, ah, feriado, a gente buscar nesse histórico feriado.<cite>Karu</cite></div>
+    <div class="rule"><i></i><span>Na conversa, o clube apontou que a previsão “vai ser uma base pra tudo”: com ela fica mais fácil saber quanto preparar, quando pedir e quanto pedir.</span></div>
+  </div>
+
+  <div class="prob">
+    <p class="lbl">PROBLEMA 4</p>
+    <h3>Comunicação por fotos <span class="sev a">ALTO</span></h3>
+    <ul>
+      <li>A equipe precisa encaminhar fotos todos os dias: contagem, checklist, fechamento.</li>
+      <li>As fotos se perdem. “E aí eu fico perdida, onde que tá. Ele: não, mas eu te mandei.”</li>
+      <li>Quando ela abre no computador e depois vai ver no celular, o arquivo não foi baixado.</li>
+      <li>Ela tem um número de telefone pessoal há 17 anos, que mistura família, amigos e trabalho.</li>
+      <li>Ela já se organiza em vários grupos separados (o do negócio novo, o só do Yokai) e em dois Instagrams, e diz que são “50 mil coisas”.</li>
+    </ul>
+    <div class="quote">Eu tenho que ficar o tempo todo lembrando eles de mandarem fotos.<cite>Karu</cite></div>
+  </div>
+</section>
+
+<section class="br">
+  <div class="prob">
+    <p class="lbl">PROBLEMA 5</p>
+    <h3>Pedidos de compra perdidos <span class="sev a">ALTO</span></h3>
+    <div class="two">
+      <div>
+        <h4>Fluxo atual</h4>
+        <ol>
+          <li>A equipe monta o pedido a partir do checklist e da contagem.</li>
+          <li>Manda no grupo do WhatsApp.</li>
+          <li>A Karu dá um check: todo pedido da cozinha passa por ela.</li>
+          <li>O Caio envia ao fornecedor.</li>
+        </ol>
+      </div>
+      <div>
+        <h4>O caso que aconteceu</h4>
+        <p>O chefe de produção, do turno da manhã, mandou um pedido às <b>14h</b>. A Karu mandou outro à <b>meia-noite e pouco</b>. O Caio enviou só o segundo, porque o primeiro tinha ficado lá em cima na conversa.</p>
+      </div>
+    </div>
+    <ul>
+      <li>O mesmo grupo mistura pedidos, dedetização, avisos e perguntas soltas (“de quem é esse vinil?”).</li>
+      <li>A Karu sente falta de organização: saber onde fica a contagem, onde fica o pedido.</li>
+      <li><b>O que ela imagina:</b> a Isa faz o checklist e, no fim da noite (principalmente no fim do sábado e da quinta), coloca o pedido num lugar só. O Caio olha, aprova e manda para o fornecedor, sem ter que procurar.</li>
+    </ul>
+  </div>
+
+  <div class="prob">
+    <p class="lbl">PROBLEMA 6</p>
+    <h3>Fornecedores e prazos de pedido <span class="sev a">ALTO</span></h3>
+    <p>Cada fornecedor tem um prazo e um dia, e essas regras estão na cabeça da Karu ou espalhadas na planilha. Ela começou a anotar os dias na planilha de produção depois que a Isa esqueceu de pedir pão.</p>
+    <table>
+      <tr><th style="width:24%">Produto</th><th style="width:30%">Quando pedir · quando chega</th><th>Observações</th></tr>
+      <tr><td>Pão</td><td>Sábado → quarta. Terça → sexta.</td><td>O fornecedor só entrega quarta e sexta. Numa semana esqueceram de pedir e a Karu teve que improvisar.</td></tr>
+      <tr><td>Hortifruti</td><td>Sábado → segunda (para seg, ter, qua). Quarta ou quinta → quinta ou sexta (para qui, sex, sáb).</td><td>Daria para pedir todo dia, mas ela agrupa para a produção não ter que parar todo dia para receber. Controle diário. Itens: batata bolinha, cebolinha, pepino, tomate, coentro, cebola roxa, couve-flor, laranja bahia.</td></tr>
+      <tr><td>Massa de gyoza</td><td>10 dias de antecedência</td><td>Vem de São Paulo. Fabricação manual, transporte refrigerado, e o fornecedor abastece São Paulo inteiro. Houve um problema com esse fornecedor neste mês.</td></tr>
+      <tr><td>Secos</td><td>A cada 15 dias</td><td>Precisam ser comprados em volume, como a pimenta coreana.</td></tr>
+      <tr><td>Produtos chineses</td><td>Uma vez por mês</td><td>Comprados presencialmente numa loja no estacionamento de um shopping popular de BH. Não entregam, só aceitam dinheiro e é preciso ir de carro.</td></tr>
+    </table>
+    <h4>Regras e dificuldades</h4>
+    <ul>
+      <li><b>Nada de entrega no sábado.</b> O entregador chega no horário que quer (às 10h, quando não tem ninguém), mesmo combinando 15h. A Karu “institucionalizou” que não se pede para sábado.</li>
+      <li>Entregadores não respeitam horários e às vezes pedem para deixar a mercadoria no bar ao lado.</li>
+      <li><b>BH tem poucos fornecedores bons.</b> Todo mundo compra praticamente dos mesmos. No hortifruti há 3 ou 4 conhecidos com boa qualidade.</li>
+      <li><b>Pedido mínimo alto:</b> alguns fornecedores só atendem com pedido mínimo grande, que restaurantes pequenos não alcançam.</li>
+      <li><b>Catálogo sem preço:</b> a maioria manda um catálogo sempre igual, sem valores. Todo mês é preciso pegar os códigos e pedir orçamento. Só o hortifruti manda a lista mensal com preço.</li>
+      <li>Fornecedores na planilha de contagem: Tomato (hortifruti, o principal), Benassi, Sakura, Keishi, Maia Distribuidora, Mercado Livre e a loja chinesa.</li>
+    </ul>
+    <div class="quote">O maior problema que a gente tem com o fornecedor, e eu acho que vocês não vão me achar essa solução… é que eles têm um catálogo sem preço.<cite>Karu</cite></div>
+  </div>
+</section>
+
+<section class="br">
+  <div class="prob">
+    <p class="lbl">PROBLEMA 7</p>
+    <h3>Recebimento de mercadoria <span class="sev m">MÉDIO</span></h3>
+    <ul>
+      <li>Os dois funcionários da manhã recebem as entregas.</li>
+      <li>A orientação é: pegar a nota, contar o que chegou, conferir com a nota e olhar no celular se bate com o que foi pedido.</li>
+      <li>Já aconteceu de pedir 10 caixas e chegarem 15, com 15 na nota. Ou o contrário.</li>
+      <li>Se não contestar com o entregador na hora, já era.</li>
+      <li>A Karu considera essa a parte mais tranquila hoje.</li>
+    </ul>
+    <p class="note">Na conversa, um membro do clube contou o caso de um conhecido que resolveu esse problema guardando as notas num lugar fixo e escaneando tudo no fim do dia.</p>
+  </div>
+
+  <div class="prob">
+    <p class="lbl">PROBLEMA 8</p>
+    <h3>Checklists de rotina <span class="sev m">MÉDIO</span></h3>
+    <p>Os checklists funcionam e evitam esquecimentos, mas vivem no papel e só chegam à Karu por foto.</p>
+    <div class="grid2">
+      <div class="card"><h4>Produção (pré-preparo)</h4><p>Lista com mínimo e check. Uma bolinha marca o que precisa ser feito no dia, e o item é riscado quando está pronto. Exemplos: mayo de gergelim, taberu, onigiri pronto, cebolinha rodela, atum, nori cortada, batashoyu, manteiga tahine/missô, polvo, batata bolinha, redução shaoxing, togarashi, tempero geng, hambúrguer ebi, pepino laminado, katsu empanado, mayo curry, picles, harumaki de maçã, doce de leite.</p></div>
+      <div class="card"><h4>Praça diária (finalização)</h4><p>Itens mais perecíveis, que precisam estar prontos para o serviço: molho gyoza, purê de tofu, vinagrete, koumi pimenta, cebolinha cabelo, mayo camarão, coentro desfolhado, karaage porcionado, mayo simples, jian dui, kit tempurá, molho tso, couve-flor, papel.</p></div>
+      <div class="card"><h4>Fechamento da cozinha (todo dia)</h4><p>Preencher a planilha de pré-preparo e a de compras; higienizar, escorrer e desligar a máquina de lavar pratos; filtrar ou descartar o óleo do tempurá; tampar e desligar as fritadeiras; desligar luz, indução, máquina a vácuo e gás; verificar equipamentos dos pisos 1 e 2; fechar o registro de água.</p></div>
+      <div class="card"><h4>Limpeza (conforme a demanda)</h4><p>Grade mensal (dias 1 a 31) com: 4 freezers Imbera, máquina a vácuo, micro-ondas, freezer marrom, coifa, freezer baixo, 2 geladeiras, prateleiras e tábuas. Freezers são lavados a cada 15 dias; máquinas pelo menos uma vez por semana. O registro serve para saber se foi limpo.</p></div>
+    </div>
+    <ul style="margin-top:4mm">
+      <li>Os checklists ficam em papel plastificado, para não precisar imprimir de novo.</li>
+      <li>A Karu pede para a Isa mandar a foto do fechamento todo fim de noite. Ela diz que é um controle para as duas.</li>
+      <li>Já aconteceu de alguém chegar no dia seguinte e perceber que esqueceu algo. “Não é por mal, mas são muitas coisas.”</li>
+      <li>No começo do restaurante, a Karu às vezes voltava do meio do caminho para casa porque não tinha certeza se tinha fechado tudo.</li>
+    </ul>
+    <div class="quote">Tem coisa que é assim, é óbvio. Mas tem que ser dito.<cite>Karu</cite></div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="br">
+  <h2><span class="n">13</span>Dores <span class="grad">secundárias</span></h2>
+  <p class="muted">Apareceram na conversa, mas a própria Karu disse que não são a prioridade agora.</p>
+  <div class="prob">
+    <h3>Notas fiscais e financeiro <span class="sev b">BAIXO</span></h3>
+    <ul>
+      <li>Os fornecedores emitem a nota no CNPJ do restaurante, e o Saipos não importa essas notas.</li>
+      <li>Cada nota precisa ser <b>transcrita à mão</b>, com o código ou o nome do produto (exemplo: “Coca-Cola”) para separar por categoria.</li>
+      <li>Sem tempo para lançar todo dia, ela junta todas e lança no fim do mês.</li>
+      <li>O financeiro hoje é <b>terceirizado</b>. A planilha da pessoa responsável separa por categoria (insumo de bar, forma de pagamento etc.) e cruza com o extrato. A Karu prefere a planilha dela, “mas acho que é porque eu tô acostumada”.</li>
+      <li>Antes de compartilhar as planilhas financeiras, o clube levantou a questão dos dados sensíveis (por exemplo, mandar sem a coluna de valores).</li>
+    </ul>
+  </div>
+  <div class="prob">
+    <h3>Engenharia de cardápio <span class="sev b">BAIXO</span></h3>
+    <ul>
+      <li>Ela cruza vendas mensais por prato (do Saipos) com preço de venda, CMV e margem de contribuição para decidir o que entra e o que sai. Ela chama isso de engenharia de cardápio.</li>
+      <li>A lógica: prato que vende bem e tem bom custo fica; prato com custo pior mas que vende muito pode compensar; prato com boa margem mas que sai pouco pode sair.</li>
+      <li>Exemplo: uma sobremesa tinha margem ótima, mas saía muito pouco (“quem gostava, gostava muito”) e saiu do cardápio.</li>
+      <li>Exemplo: o <b>Tori Sando</b> está na lanterna há meses, com CMV pior. Ela foi adiando a saída porque não tinha substituto. Agora entra um sanduíche de camarão com porco.</li>
+      <li>A análise não inclui custo de funcionário, só custo variável.</li>
+      <li>Há planilhas separadas para pratos, drinks e mocktails. Algumas fórmulas estão quebradas (“#REF!”).</li>
+    </ul>
+  </div>
+  <div class="grid2">
+    <div class="prob" style="margin:0">
+      <h3>Fidelização <span class="sev b">BAIXO</span></h3>
+      <ul>
+        <li>Ideia surgida numa palestra para donos de restaurante: criar um clube de fidelidade.</li>
+        <li>Pelo extrato, o financeiro já identificou cartões que voltam toda semana (um veio três vezes na mesma semana).</li>
+        <li>Cadastrar telefone à mão seria trabalhoso. Ela viu um app com QR code e se discutiu um cartão de aproximação barato. O clube alertou para o risco de segurança de soluções muito baratas.</li>
+      </ul>
+    </div>
+    <div class="prob" style="margin:0">
+      <h3>Marketing <span class="sev b">BAIXO</span></h3>
+      <ul>
+        <li>Hoje só posts orgânicos. Monta o cronograma com ajuda do ChatGPT.</li>
+        <li>Pensou em tráfego pago, mas o orçamento ficou puxado. Prefere investir em pessoas primeiro, porque se der certo “bomba” e falta equipe para atender.</li>
+        <li>Influenciadores já funcionaram muito bem.</li>
+        <li>Está cansada de cuidar do marketing.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="br">
+  <h2><span class="n">14</span>O que a solução <span class="grad">não pode ser</span></h2>
+  <p>As restrições abaixo apareceram várias vezes na conversa e valem para qualquer proposta.</p>
+  <div class="grid2">
+    <div class="card"><h4>Cara</h4><p style="margin:0">Apps prontos de R$ 500 a R$ 1.000 por mês estão fora. Eles vendem em módulos, e ela pagaria por coisas que não usa. “Eu sou empreendedora pobre.” Com 5 funcionários, prefere investir em marketing ou em pessoas.</p></div>
+    <div class="card"><h4>Mais um passo</h4><p style="margin:0">Exigir foto de evidência para cada tarefa “adiciona um passo e adiciona um empecilho pro funcionário”. Na correria, parar para abrir um app pode ser pior que o papel.</p></div>
+    <div class="card"><h4>Vigilância</h4><p style="margin:0">Ela não quer microgerenciar. Para ela, app que exige foto de tudo é como dizer “eu não dou treinamento, mas quero que ele entregue”. O objetivo é comunicação, cobrança justa e ajuda.</p></div>
+    <div class="card"><h4>Complicada</h4><p style="margin:0">Monday e ClickUp têm coisa demais. Ela sabe Excel, mas acha difícil aprender ferramentas novas. Uma ferramenta nova, como o Slack, também precisaria de treinamento da equipe.</p></div>
+  </div>
+  <div class="quote">Eu quero que facilite e não dificulte, tipo, porque eu acho que é isso. Eles vão ficar mais putos. Já é difícil achar funcionário que queira trabalhar na área… é pesado, é à noite. Então assim, o que der pra facilitar pra eles. Mas sem perder a mão também.<cite>Karu</cite></div>
+  <h3>A visão dela sobre a equipe</h3>
+  <ul>
+    <li>Ela já foi funcionária e acredita que equipe bem treinada e com um bom líder faz o trabalho porque quer.</li>
+    <li>“Não é nem que eu quero monitorar se as meninas estão fazendo certinho. É mais pra elas mesmas conseguirem ver que tá certo. É mais pra ter onde cobrar se der errado, ou ajudar se esquecer.”</li>
+    <li>Ela reconhece que, para algumas coisas, como ver se está limpo, vai continuar precisando ir ao restaurante.</li>
+    <li>A solução precisa ser um recurso “pras meninas e pra eu ficar mais tranquila”.</li>
+  </ul>
+</section>
+
+<!-- 15 -->
+<section class="br">
+  <h2><span class="n">15</span>Prioridades <span class="grad">da Karu</span></h2>
+  <table>
+    <tr><th style="width:8%">#</th><th style="width:34%">Tema</th><th style="width:16%">Prioridade</th><th>Por quê</th></tr>
+    <tr><td>1</td><td>Contagem e estoque</td><td>Crítica</td><td>“É onde está o nosso gargalo.” Base para pedidos, CMV e histórico.</td></tr>
+    <tr><td>2</td><td>Processos para a equipe sem ela</td><td>Crítica</td><td>Ela vai sair da operação e o chefe de produção está saindo.</td></tr>
+    <tr><td>3</td><td>Previsão de mínimos por dia</td><td>Crítica</td><td>Evita sobra e falta. É a base para saber quanto preparar e pedir.</td></tr>
+    <tr><td>4</td><td>Pedidos organizados num lugar só</td><td>Alta</td><td>Pedidos já foram perdidos no grupo.</td></tr>
+    <tr><td>5</td><td>Lembretes de fornecedores</td><td>Alta</td><td>Prazos variam por fornecedor e esquecimentos já aconteceram.</td></tr>
+    <tr><td>6</td><td>Checklists digitais</td><td>Média</td><td>Hoje funcionam, mas dependem de foto.</td></tr>
+    <tr><td>7</td><td>Notas fiscais, cardápio, fidelidade, marketing</td><td>Baixa</td><td>“Não é minha prioridade agora.”</td></tr>
+  </table>
+</section>
+
+<!-- 16 -->
+<section class="br">
+  <h2><span class="n">16</span>Ideias que surgiram <span class="grad">na conversa</span></h2>
+  <ul>
+    <li><b>Previsão com histórico:</b> usar as vendas passadas por dia da semana e feriados para definir quanto ter de cada pré-preparo. O clube destacou que um membro com formação na área pode liderar essa parte.</li>
+    <li><b>App próprio, mais barato:</b> a Karu gostou da ideia de uma solução feita sob medida, sem os módulos que não usa. O clube comentou que, com IA, dá para construir ferramentas internas a custo muito baixo.</li>
+    <li><b>Separar as conversas por assunto:</b> o Slack foi sugerido por permitir canais e marcar tópicos (por exemplo, #pedido), resolvendo depois. A Karu achou interessante, mas lembrou que seria mais uma ferramenta nova.</li>
+    <li><b>Mensagens automáticas e lembretes:</b> para fornecedores com dia fixo, um aviso automático já ajudaria.</li>
+    <li><b>Contato automático com fornecedores:</b> o clube mostrou uma ferramenta própria que busca empresas por região e manda mensagens automáticas, com custo de cerca de US$ 5. Ela poderia ser adaptada para buscar fornecedores ou falar com clientes.</li>
+    <li><b>Planilha de pedido no fim da noite:</b> ideia da própria Karu. O turno da noite registra o pedido junto com o checklist, e o Caio aprova.</li>
+    <li><b>Mínimos por dia na planilha:</b> uma coluna por dia da semana, que a equipe troca a cada dia.</li>
+  </ul>
+  <div class="rule"><i></i><span>A Karu se dispôs a passar acesso ao Saipos, enviar as planilhas e os vídeos do app que avaliou. Foi criado um grupo de contato com ela. Ela avisou que costuma responder de madrugada, quando sai do restaurante.</span></div>
+</section>
+
+<!-- 17 -->
+<section class="br">
+  <h2><span class="n">17</span>Dados <span class="grad">disponíveis</span></h2>
+  <table>
+    <tr><th style="width:30%">Arquivo</th><th>Conteúdo</th></tr>
+    <tr><td>Contagem.xlsx</td><td>Aba “Estoque jan”: insumos com preço por kg/L/un, categoria (hortifruti, importados, secos), fornecedor e contagem inicial e final. Fornecedores mais frequentes: Tomato e Benassi.</td></tr>
+    <tr><td>Produção diária.xlsx</td><td>Checklists de produção e praça de vários meses (set/24, jun/25, mai/26, dez/26), com mínimos nas versões antigas. A versão mais nova tem a coluna de pedidos e dias de cada fornecedor.</td></tr>
+    <tr><td>planilhas organização cozinha.xlsx</td><td>Limpeza (grade mensal por equipamento), fechamento (lista de tarefas), quantidades mínimas (médias de três períodos por prato e mínimo por bag) e rendimentos (quanto rende uma receita: ex. gyoza 4 kg, karaage 20 kg).</td></tr>
+    <tr><td>analiseagosto-jan.xlsx e analiseset-mar.xls</td><td>Vendas mensais por prato, drink e mocktail, preço de venda, CMV e margem de contribuição. Base da engenharia de cardápio.</td></tr>
+    <tr><td>tabela porcionamento.xlsx</td><td>Como cada produção é porcionada e embalada (ex.: gyoza em saco picote com 20 un; lo bak go com 25 un).</td></tr>
+    <tr><td>Saipos</td><td>Relatórios de vendas, inclusive por dia. Acesso a combinar com a Karu.</td></tr>
+    <tr><td>Transcrição da conversa</td><td>Texto completo da gravação, com marcação de tempo.</td></tr>
+  </table>
+  <h3>Pratos mais vendidos (média mensal de unidades, maio a agosto)</h3>
+  <p class="muted" style="font-size:8.5pt">Dados da planilha de análise, úteis para o Grupo A priorizar quais itens prever primeiro.</p>
+  <table>
+    <tr><th>Prato</th><th>Média/mês</th><th>Prato</th><th>Média/mês</th></tr>
+    <tr><td>Yaki onigiri</td><td>~223</td><td>Ebi buta dim sum</td><td>~150</td></tr>
+    <tr><td>Gyoza de porco</td><td>~210</td><td>Tamago</td><td>~129</td></tr>
+    <tr><td>Shorompo</td><td>~183</td><td>Kimcheese</td><td>~120</td></tr>
+    <tr><td>Karaage</td><td>~168</td><td>Tso flower / Katsu kare sando</td><td>~112 cada</td></tr>
+  </table>
+  <div class="rule"><i></i><span>Dados reais de um negócio: não publicar em repositório público e não compartilhar fora do clube. Para demonstrações públicas, usar números fictícios.</span></div>
+</section>
+
+<!-- 18 -->
+<section class="br">
+  <h2><span class="n">18</span>Perguntas <span class="grad">em aberto</span></h2>
+  <p>Pontos que a conversa não esclareceu e que vale confirmar com a Karu antes de construir.</p>
+  <div class="grid2">
+    <div class="card">
+      <h4>Equipe e uso</h4>
+      <ul style="margin:0">
+        <li>Todos da equipe têm celular próprio e internet no restaurante?</li>
+        <li>Quem vai substituir o chefe de produção nas contagens?</li>
+        <li>Um tablet fixo na cozinha seria melhor que o celular de cada um?</li>
+        <li>O papel na geladeira continua? O lançamento no sistema pode ser feito depois, no fim do turno?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Dados e sistemas</h4>
+      <ul style="margin:0">
+        <li>O Saipos exporta vendas por dia e por prato? Em que formato?</li>
+        <li>Quanto tempo de histórico existe no Saipos?</li>
+        <li>Quais feriados e eventos mudam muito o movimento?</li>
+        <li>O Saipos vai mesmo ser trocado? Por qual sistema?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Pedidos e fornecedores</h4>
+      <ul style="margin:0">
+        <li>Como o Caio envia os pedidos hoje: WhatsApp, e-mail ou telefone?</li>
+        <li>Qual a lista completa de fornecedores, com dia de pedido, prazo e pedido mínimo?</li>
+        <li>O que foi o problema com o fornecedor de massa neste mês?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Escopo e custo</h4>
+      <ul style="margin:0">
+        <li>Qual o teto de custo mensal aceitável?</li>
+        <li>Quem vai manter o sistema depois que o clube entregar?</li>
+        <li>O novo negócio pode usar a mesma solução no futuro?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section>
+  <h2><span class="n">19</span>O que isso significa <span class="grad">para os grupos</span></h2>
+  <div class="grid2">
+    <div class="card hi">
+      <h4 style="color:#E6DEFF">Grupo A · Previsão</h4>
+      <ul style="margin:0">
+        <li>Calcular o mínimo de cada pré-preparo por dia da semana, com ajuste de feriado.</li>
+        <li>Converter porções em insumos (usando rendimentos e porcionamento) e em pedido por fornecedor.</li>
+        <li>Começar pelos pratos de maior volume.</li>
+        <li>Validar contra semanas passadas: teria sobrado ou faltado?</li>
+        <li>Explicar o método de um jeito que a Karu entenda sem planilha.</li>
+        <li>Entregar o resultado numa tabela que o Grupo B consiga ler.</li>
+      </ul>
+    </div>
+    <div class="card hi">
+      <h4 style="color:#E6DEFF">Grupo B · Sistema (Vercel + Supabase)</h4>
+      <ul style="margin:0">
+        <li>Contagem rápida no celular, por equipamento ou categoria.</li>
+        <li>Checklists de produção, praça, fechamento e limpeza, sem foto obrigatória.</li>
+        <li>Pedidos num lugar só, com aprovação da Karu e envio pelo Caio.</li>
+        <li>Lembretes com o calendário de fornecedores.</li>
+        <li>Painel para a Karu acompanhar de longe.</li>
+        <li>Custo perto de zero, fácil de usar e de manter.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="rule"><i></i><span>Critério que vale para tudo: facilitar, não dificultar. Se a equipe não usar na correria, a solução não resolveu.</span></div>
+  <p class="end">SKEM.AI · Clube de IA · Case Yokai · Documento interno</p>
+</section>
+
+</main>
+</body>
+</html>
